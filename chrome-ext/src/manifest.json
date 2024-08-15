@@ -1,0 +1,29 @@
+{
+	"manifest_version": 3,
+	"name": "My React Extension",
+	"version": "1.0",
+	"action": {
+	  "default_popup": "popup.html",
+	  "default_icon": {
+		"128": "/icons/logo.png"
+	  }
+	},
+	"permissions": [
+		"activeTab", 
+		"scripting",
+		"identity",
+		"storage",
+		"tabs",
+		"webNavigation"
+	],
+	"background": {
+		"service_worker": "background.bundle.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["contentScript.bundle.js"]
+		}
+	]
+  }
+  

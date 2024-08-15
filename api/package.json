@@ -1,0 +1,22 @@
+{
+  "name": "42intra-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.5.3",
+    "passport": "^0.7.0",
+    "passport-oauth2": "^1.8.0",
+    "uuid": "^10.0.0"
+  }
+}
