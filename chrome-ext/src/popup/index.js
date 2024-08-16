@@ -24,6 +24,17 @@ const App = () => {
 		};
 	}, []);
 
+	const test = async () => {
+		fetch('http://localhost:3000/me',{
+			headers: {
+				'X-42IntraTools-Key': user.uuid,
+			},
+			credentials: 'include'
+		})
+			.then(res => res.json())
+			.then(data => console.log(data));
+	}
+
   return (
     <div
 		style={{
@@ -43,7 +54,7 @@ const App = () => {
 
 	  {user &&
 		<>
-			<Text>
+			<Text onClick={() => test()}>
 				Connected as {user.login}
 			</Text>
 			<Button

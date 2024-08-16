@@ -43,4 +43,4 @@ class IntraApp {
 	}
 }
 
-module.exports = IntraApp;
+module.exports = new IntraApp;
