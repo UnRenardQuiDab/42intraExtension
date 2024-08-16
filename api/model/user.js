@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
     refreshToken: { type: String, required: true },
     expiresIn: { type: Date, required: true },
     uuid: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    intraUserCreatedAt: { type: Date, required: true }
 });
 
 const User = mongoose.model('User', userSchema);

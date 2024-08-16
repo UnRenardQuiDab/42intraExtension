@@ -21,7 +21,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["<all_urls>"],
+			"matches": ["https://profile.intra.42.fr/*"],
 			"js": ["contentScript.bundle.js"]
 		}
 	]

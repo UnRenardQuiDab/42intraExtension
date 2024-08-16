@@ -2,14 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
-
 const { default: axios } = require('axios');
 const User = require('./model/user');
+const IntraApp = require('./intra/IntraApp');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
+app.intraApp = new IntraApp();
 
 // Route pour démarrer le processus d'authentification
 app.get('/auth/42', (req, res) => {
@@ -55,10 +54,10 @@ app.get('/auth/42/callback',
       return;
     }
 
-    const { id, login } = await user.json();
+    const { id, login, created_at } = await user.json();
     const uuid = uuidv4();
 
-    User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { intraId: id },
       {
         intraId: id,
@@ -66,9 +65,10 @@ app.get('/auth/42/callback',
         accessToken: access_token,
         refreshToken: refresh_token,
         expiresIn: new Date(Date.now() + expires_in * 1000),
-        uuid: uuid
+        uuid: uuid,
+        intraUserCreatedAt: created_at
       },
-      { upsert: true });
+      { new: true, upsert: true, useFindAndModify: false });
     
 
     res.redirect(`/redirect?uuid=${uuid}&login=${login}`);
@@ -80,7 +80,55 @@ app.get('/redirect', (req, res) => {
   res.send(`You are now connected you can close this tab`);
 });
 
+app.get('/logtime', async (req, res) => {
+		const bwisniew = await User.findOne({ login: 'bwisniew' });
+    if (!bwisniew) {
+      res.status(500).send('User not found');
+      return;
+    }
+    
+    try {
+      const response = await axios.get(`https://api.intra.42.fr/v2/users/${bwisniew.login}/locations_stats`, {
+          headers: {
+              Authorization: `Bearer ${await app.intraApp.getAuthToken()}`
+          },
+          params: {
+            begin_at: new Date(bwisniew.intraUserCreatedAt).toISOString(),
+            end_at: new Date(Date.now()).toISOString()
+          }
+      });
+
+      res.send(response.data);
+    } catch (error) {
+      res.status(500).send(error);
+      return;
+    }
+
+});
+
+app.get('/me', async (req, res) => {
+  const bwisniew  = await User.findOne({ login: 'bwisniew' });
+  if (!bwisniew) {
+    res.status(500).send('User not found');
+    return;
+  }
+
+  const response = await fetch(`https://api.intra.42.fr/v2/me`, {
+    headers: {
+      'Authorization': `Bearer ${bwisniew.accessToken}`
+    }
+  });
+
+  if (response.status !== 200) {
+    res.status(500).send('User not found');
+    return;
+  }
+
+  const data = await response.json();
+  res.send(data);
+});
+
 // Démarrer le serveur
 app.listen(3000, () => {
-    console.log('Le serveur tourne sur http://localhost:3000');
+    console.log('Server is running on http://localhost:3000');
 });
