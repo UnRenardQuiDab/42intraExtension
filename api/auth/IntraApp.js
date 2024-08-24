@@ -9,7 +9,7 @@ class IntraApp {
 
 	async getAuthToken() {
 
-		if (this.expiration >= Date.now()) {
+		if (new Date(this.expiration) >= Date.now()) {
 			return this.token;
 		}
 
@@ -33,6 +33,7 @@ class IntraApp {
 			
 			const token = await response.json();
 			this.token = token.access_token;
+			console.log('Token:', this.token);
 			this.expiration = Date.now() + token.expires_in * 1000;
 			return token;
 

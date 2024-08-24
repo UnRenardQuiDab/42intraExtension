@@ -5,13 +5,14 @@ const IntraApp = require('../auth/IntraApp');
 
 
 
+
 const userSchema = new mongoose.Schema({
     intraId: { type: String, required: true, unique: true },
     login: { type: String, required: true },
-    accessToken: { type: String, required: true },
-    refreshToken: { type: String, required: true },
-    expiresIn: { type: Date, required: true },
-    uuid: { type: String, required: true },
+    accessToken: { type: String, required: false },
+    refreshToken: { type: String, required: false },
+    expiresIn: { type: Date, required: false },
+    uuid: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },
     intraUserCreatedAt: { type: Date, required: true },
     logtime: {type: {
@@ -43,9 +44,8 @@ userSchema.methods.getToken = async function() {
 
 userSchema.methods.getLogtime = async function() {
 
-    const maxUpdatedDate = new Date();
+    const maxUpdatedDate = new Date(Date.now());
     maxUpdatedDate.setMonth(maxUpdatedDate.getMonth() - 4);
-    console.log(this.logtime.lastFetchedDate, maxUpdatedDate, this.logtime.length !== 0 && this.logtime.lastFetchedDate > maxUpdatedDate);
     if (this.logtime.length !== 0 && this.logtime.lastFetchedDate > maxUpdatedDate) {
         console.log('returning from cache');
         return this.logtime.durations;
@@ -62,24 +62,45 @@ userSchema.methods.getLogtime = async function() {
             }
         });
         console.log('returning from api');
-        //console.log(response.data);
 
         for (const date in response.data) {
-            console.log(new Date(date).toISOString());
-            const logtime = this.logtime.durations.find((element) => {
-                return element.date === new Date(date).toISOString();
-                    
-            });
+            const logtime = this.logtime.durations.find((element) => new Date(element.date) === new Date(date));
             if (logtime) 
                 logtime.duration = response.data[date];
             else
                 this.logtime.durations.push({date: date, duration: response.data[date]});
         }
-      
-        // this.logtime.durations = [response.data, ...this.logtime.durations].sort((a, b) => a.date - b.date);
-        // this.logtime.lastFetchedDate = new Date(Date.now());
+        this.logtime.lastFetchedDate = new Date(Date.now());
         this.save();
         return this.logtime.durations;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+
+userSchema.statics.findByLogin = async function(login) {
+    const user = await this.findOne({ login });
+    if (user) {
+        return user;
+    }
+    try {
+        const response = await axios.get(`https://api.intra.42.fr/v2/users/${login}`, {
+            headers: {
+                Authorization: `Bearer ${await IntraApp.getAuthToken()}`
+            }
+        });
+
+        const { id, created_at } = response.data;
+
+        const user = await this.create({
+			intraId: id,
+			login: login,
+			intraUserCreatedAt: created_at,
+			logtime: { durations: [], lastFetchedDate: created_at }
+		});
+        return user;
     } catch (error) {
         console.error(error);
         return null;

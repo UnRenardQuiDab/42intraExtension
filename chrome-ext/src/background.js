@@ -1,3 +1,5 @@
+import config from "./config";
+
 chrome.webNavigation.onCompleted.addListener(function(details) {
 	const url = new URL(details.url);
 	const uuid = url.searchParams.get('uuid');
@@ -9,7 +11,7 @@ chrome.webNavigation.onCompleted.addListener(function(details) {
 		chrome.tabs.remove(details.tabId);
 	  });
 	}
-  }, {url: [{urlMatches: `http://localhost:3000/redirect`}]});
+  }, {url: [{urlMatches: `${config.api}/auth/redirect`}]});
 
 
 console.log('Background script loaded', `${chrome.identity.getRedirectURL()}token`);
