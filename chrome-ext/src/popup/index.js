@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button, Flex, Typography} from 'antd';
+import config from '../config';
 const { Text } = Typography;
 
 const App = () => {
@@ -9,7 +10,7 @@ const App = () => {
 
 	const onClick = async () => {
 		chrome.tabs.create({
-			url: `http://localhost:3000/auth/42`,
+			url: `${config.api}/auth/42`,
 			active: true
 		});
 	}
@@ -23,17 +24,6 @@ const App = () => {
 			setUser(null);
 		};
 	}, []);
-
-	const test = async () => {
-		fetch('http://localhost:3000/me',{
-			headers: {
-				'X-42IntraTools-Key': user.uuid,
-			},
-			credentials: 'include'
-		})
-			.then(res => res.json())
-			.then(data => console.log(data));
-	}
 
   return (
     <div
@@ -54,7 +44,7 @@ const App = () => {
 
 	  {user &&
 		<>
-			<Text onClick={() => test()}>
+			<Text>
 				Connected as {user.login}
 			</Text>
 			<Button
