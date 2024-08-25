@@ -52,9 +52,10 @@ userSchema.methods.getLogtime = async function() {
     }
 
     try {
+        const token = await IntraApp.getAuthToken();
         const response = await axios.get(`https://api.intra.42.fr/v2/users/${this.login}/locations_stats`, {
             headers: {
-                Authorization: `Bearer ${await IntraApp.getAuthToken()}`
+                Authorization: `Bearer ${token}`
             },
             params: {
                 begin_at: new Date(this.logtime.lastFetchedDate).toISOString(),

@@ -35,11 +35,7 @@ const Calendar = () => {
 	const login = currentUrl.split('/')[parts.length - 1];
 
 	const {durations, loading, from} = useLogtime(login);
-	const validRange = [dayjs(from), moment().endOf('day')];
-
-	React.useEffect(() => {
-		console.log(durations, loading);
-	}, [durations]);
+	const validRange = [dayjs(from), dayjs().add(1, 'day')];
 
 	const disabledDate = (date) => {
 		return date && date > moment().endOf('day') || date < moment(from);
@@ -70,90 +66,103 @@ const Calendar = () => {
 				</p>
 				{
 					!disabledDate(date) && 
-				<p
-					style={{
-						margin: 0,
-						color: duration ? 'darkgray' : 'lightgray',
-					}}
-				>
-					{convertDurationToHoursMinutes(duration)}
-				</p>}
+					<p
+						style={{
+							margin: 0,
+							color: duration ? 'darkgray' : 'lightgray',
+						}}
+					>
+						{convertDurationToHoursMinutes(duration)}
+					</p>
+				}
 			</Flex>
 		);
 	};
 
 	const headerRender = ({ value, onChange }) => {
-    const current = value.clone();
+		const current = value.clone();
 
-    const isPrevMonthDisabled = current.isSameOrBefore(validRange[0], 'month');
-    const isNextMonthDisabled = current.isSameOrAfter(validRange[1], 'month');
+		const isPrevMonthDisabled = current.month() <= validRange[0].month() && current.year() <= validRange[0].year();
+		const isNextMonthDisabled = current.month() >= validRange[1].month() && current.year() >= validRange[1].year();
 
-    const monthOptions = moment.months().map((month, index) => {
-      const optionDisabled = current.year() === validRange[0].year() && index < validRange[0].month() ||
-                             current.year() === validRange[1].year() && index > validRange[1].month();
-      return (
-        <Select.Option key={month} value={index} disabled={optionDisabled}>
-          {month}
-        </Select.Option>
-      );
-    });
+		const monthOptions = moment.months().map((month, index) => {
+			const optionDisabled = current.year() === validRange[0].year() && index < validRange[0].month() ||
+									current.year() === validRange[1].year() && index > validRange[1].month();
+			return (
+				<Select.Option key={month} value={index} disabled={optionDisabled}>
+					{month} ({convertDurationToHoursMinutes(durations[current.month(index).format('YYYY-MM')])})
+				</Select.Option>
+			);
+		});
 
-    const yearOptions = Array.from({ length: validRange[1].year() - validRange[0].year() + 1 }, (_, i) => {
-      return validRange[0].year() + i;
-    }).map((year) => (
-      <Select.Option key={year} value={year}>
-        {year}
-      </Select.Option>
-    ));
+		const yearOptions = Array.from({ length: validRange[1].year() - validRange[0].year() + 1 }, (_, i) => {
+			return validRange[0].year() + i;
+		}).map((year) => {
+			return (
+				<Select.Option key={year} value={year}>
+					{year} ({convertDurationToHoursMinutes(durations[current.year(year).format('YYYY')])})
+				</Select.Option>
+			)
+		});
 
-    const selectMonth = (
-      <Select
-        value={current.month()}
-        onChange={(newMonth) => {
-          const newValue = value.clone().month(newMonth);
-          onChange(newValue);
-        }}
-        dropdownMatchSelectWidth={false}
-      >
-        {monthOptions}
-      </Select>
-    );
+		const selectMonth = (
+		<Select
+			style={{
+				Flex: 1,
+			}}
+			value={current.month()}
+			onChange={(newMonth) => {
+			const newValue = value.clone().month(newMonth);
+			onChange(newValue);
+			}}
+			dropdownMatchSelectWidth={false}
+		>
+			{monthOptions}
+		</Select>
+		);
 
-    const selectYear = (
-      <Select
-        value={current.year()}
-        onChange={(newYear) => {
-          const newValue = value.clone().year(newYear);
-          onChange(newValue);
-        }}
-        dropdownMatchSelectWidth={false}
-      >
-        {yearOptions}
-      </Select>
-    );
+		const selectYear = (
+		<Select
+			style={{
+				Flex: 1,
+			}}
+			value={current.year()}
+			onChange={(newYear) => {
+			var newValue = value.clone().year(newYear);
+			newValue = newValue < validRange[0] ? validRange[0] : newValue;
+			newValue = newValue > validRange[1] ? validRange[1] : newValue;
+			onChange(newValue);
+			}}
+			dropdownMatchSelectWidth={false}
+		>
+			{yearOptions}
+		</Select>
+		);
 
-    return (
-      <Row justify="space-between" align="middle" style={{ padding: 8 }}>
-        <Col>
-          <Button
-            icon={<LeftOutlined />}
-            onClick={() => onChange(current.subtract(1, 'month'))}
-            disabled={isPrevMonthDisabled}
-          />
-        </Col>
-        <Col>
-          {selectMonth} {selectYear}
-        </Col>
-        <Col>
-          <Button
-            icon={<RightOutlined />}
-            onClick={() => onChange(current.add(1, 'month'))}
-            disabled={isNextMonthDisabled}
-          />
-        </Col>
-      </Row>
-    );
+		return (
+			<Row justify="space-between" align="middle" style={{ padding: 8 }}>
+				<Col>
+				<Button
+					icon={<LeftOutlined />}
+					onClick={() => onChange(current.subtract(1, 'month'))}
+					disabled={isPrevMonthDisabled}
+				/>
+				</Col>
+				<Col>
+				{selectMonth} {selectYear}
+				</Col>
+				<Col>
+				<Button
+					icon={<RightOutlined />}
+					onClick={() => onChange(current.add(1, 'month'))}
+					disabled={isNextMonthDisabled}
+				/>
+				</Col>
+			</Row>
+		);
   };
+
+  const [currentDate, setCurrentDate] = React.useState(dayjs());
 	
 	if (loading)
 		return (
@@ -172,18 +181,30 @@ const Calendar = () => {
 		);
 
 	return (
+		<>
 			<AntCalendar
 				fullscreen={false}
 				style={{
 					width: '100%',
-					maxWidth: '80vh', // Limite la largeur à 80vh pour conserver la forme carrée
-					height: 'auto', // Laisse l'ant design s'adapter mais limite max
+					maxWidth: '80vh',
+					height: 'auto',
 					aspectRatio: '1 / 1',
 				}}
 				validRange={validRange}
 				dateFullCellRender={cellRender}
-				//headerRender={headerRender}
+				headerRender={headerRender}
+				onChange={(date) => setCurrentDate(date)}
 			/>
+			<Row justify="space-between" align="middle" style={{
+				padding: 16,
+				position: 'absolute',
+				bottom: 0,
+				width: '100%',
+				color: 'lightgray',
+			}}>
+		 		Total : {convertDurationToHoursMinutes(durations.total)}
+		 	</Row>
+		</>
 	);
 };
 
