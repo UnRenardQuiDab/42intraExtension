@@ -1,7 +1,8 @@
 {
 	"manifest_version": 3,
-	"name": "My React Extension",
+	"name": "42 IntraTools",
 	"version": "1.0",
+	"description": "42 IntraTools is a Chrome extension that provides additional features to the 42 intra website.",
 	"action": {
 	  "default_popup": "popup.html",
 	  "default_icon": {
