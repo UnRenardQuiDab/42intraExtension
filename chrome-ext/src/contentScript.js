@@ -2,7 +2,7 @@ import { ConfigProvider } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { UserProvider } from './context/useUser';
-import Calendar from './logtime/calendar';
+import Calendar from './logtime/Calendar';
 
 
 const App = () => {
@@ -30,6 +30,8 @@ const App = () => {
 				marginTop: '5vh',
 				padding: '25px',
 				overflow: 'hidden',
+				flexDirection: 'column',
+				position: 'relative',
 			}}
 		>
 			<Calendar />
@@ -46,7 +48,12 @@ let root = document.createElement('div');
 
 if (boxedElement)
 {
-	boxedElement.parentNode.replaceChild(root, boxedElement);
-	ReactDOM.render(<App />, root);
+	chrome.storage.local.get(['uuid', 'login'], function(result) {
+		if (result.uuid && result.login)
+		{
+			boxedElement.parentNode.replaceChild(root, boxedElement);
+			ReactDOM.render(<App />, root);
+		}
+	});
 }
 
