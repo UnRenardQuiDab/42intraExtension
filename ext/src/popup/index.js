@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Flex, Typography} from 'antd';
+import {Button, Typography} from 'antd';
 import config from '../config';
 const { Text } = Typography;
 
 const App = () => {
 
 	const [user, setUser] = React.useState(null);
+	const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
 	const onClick = async () => {
-		chrome.tabs.create({
+		browserAPI.tabs.create({
 			url: `${config.api}/auth/42`,
 			active: true
 		});
 	}
 
 	React.useEffect(() => {
-		chrome.storage.local.get(['uuid', 'login'], function(result) {
+		browserAPI.storage.local.get(['uuid', 'login'], function(result) {
 			if (result.uuid && result.login)
 				setUser(result);
 		});
@@ -26,7 +27,7 @@ const App = () => {
 	}, []);
 
   return (
-    <div
+	<div
 		style={{
 			minWidth: '300px',
 			minHeight: '200px',
@@ -36,8 +37,8 @@ const App = () => {
 			flexDirection: 'column'
 		}}
 	>
-      {!user && <Button
-	  	onClick={onClick}
+	  {!user && <Button
+		onClick={onClick}
 	  >
 		Login with intra
 	  </Button>}
@@ -59,7 +60,7 @@ const App = () => {
 		</>
 
 	  }
-    </div>
+	</div>
   );
 };
 

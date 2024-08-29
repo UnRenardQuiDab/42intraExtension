@@ -1,11 +1,14 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+
+const manifestFileName = process.env.BROWSER === 'firefox' ? 'manifest_firefox.json' : 'manifest_chrome.json';
 
 module.exports = {
   entry: {
     popup: './src/popup/index.js',
-	  contentScript: './src/contentScript.js',
+    contentScript: './src/contentScript.js',
     background: './src/background.js',
   },
   output: {
@@ -33,9 +36,12 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/manifest.json', to: 'manifest.json' },
+        { from: `src/${manifestFileName}`, to: 'manifest.json' },
         { from: 'public/icons', to: 'icons' }, // Si vous avez des icônes
       ],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.BROWSER': JSON.stringify(process.env.BROWSER),
     }),
   ],
   resolve: {

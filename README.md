@@ -1,6 +1,6 @@
 # 🎓 42 Intra Tools
 
-This repository contains a Chrome extension and a backend API designed to improve your interaction with the 42 school intranet.
+This repository contains a Web extension and a backend API designed to improve your interaction with the 42 school intranet.
 
 ## 🚀 Why This Project?
 
@@ -13,7 +13,7 @@ The 42 Intra Tools is focused on making the 42 intranet more user-friendly and e
 
 This repository is divided into two main parts:
 
-- **chrome-ext/**: The Chrome extension that enhances your 42 intranet experience.
+- **ext/**: The Web extension that enhances your 42 intranet experience.
 - **api/**: The backend API built with Express, providing data and services to the extension.
 
 ## 🛠️ Getting Started
@@ -27,11 +27,11 @@ Ensure you have these installed before getting started:
 
 ### Installation Guide
 
-#### 1. Setting Up the Chrome Extension
+#### 1. Setting Up the Web Extension
 
-1. Open a terminal and navigate to the `chrome-ext` directory:
+1. Open a terminal and navigate to the `ext` directory:
    ```bash
-   cd chrome-ext
+   cd ext
    ```
 
 2. Install the required dependencies:
@@ -42,14 +42,26 @@ Ensure you have these installed before getting started:
 3. Optionally, modify the API URL in the `config.js` file to match your backend setup.
 
 4. Build the extension for deployment:
+
+   - for Chrome
    ```bash
-   npm run build
+   npm run build:chrome
+   ```
+   
+   - for Firefox
+   ```bash
+   npm run build:firefox
    ```
 
-5. Load the extension into Chrome:
-   - Open `chrome://extensions/`.
-   - Enable "Developer mode" at the top right.
-   - Click "Load unpacked" and select the `chrome-ext/dist` folder.
+5. Load the extension
+
+   - into Chrome:
+      - Open `chrome://extensions/`.
+      - Enable "Developer mode" at the top right.
+      - Click "Load unpacked" and select the `ext/dist` folder.
+   - into Firefox:
+      - Open `about:debugging#/runtime/this-firefox`.
+      - Click "Load Temporary Add-on" and select the `ext/dist` folder.
 
 #### 2. Setting Up the Backend API
 

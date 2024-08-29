@@ -10,14 +10,17 @@ const app = express();
 
 
 module.exports = app;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions =  {
-    origin: [process.env.EXT_URI, "https://signin.intra.42.fr", "https://profile.intra.42.fr"],
+    origin: ["https://signin.intra.42.fr", "https://profile.intra.42.fr"],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSucessStatus: 200,
 };
+
 
 app.use(cors(corsOptions));
 app.use(userParser);

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { UserProvider } from './context/useUser';
 import Calendar from './logtime/Calendar';
 
+const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
 const App = () => {
 
@@ -48,7 +49,7 @@ let root = document.createElement('div');
 
 if (boxedElement)
 {
-	chrome.storage.local.get(['uuid', 'login'], function(result) {
+	browserAPI.storage.local.get(['uuid', 'login'], function(result) {
 		if (result.uuid && result.login)
 		{
 			boxedElement.parentNode.replaceChild(root, boxedElement);

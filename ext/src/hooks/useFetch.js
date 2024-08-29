@@ -4,6 +4,7 @@ export default function useFetch(url, options = {}) {
   const [data, setData] = react.useState(null);
   const [loading, setLoading] = react.useState(true);
   const [error, setError] = react.useState(null);
+  const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
   
   react.useEffect(() => {
@@ -19,14 +20,16 @@ export default function useFetch(url, options = {}) {
 				credentials: 'include',
 			});
 		const data = await response.json();
+		console.log(data);
 		setData(data);
 	  } catch (error) {
+		console.error(error);
 		setError(error);
 	  } finally {
 		setLoading(false);
 	  }
 	};
-	chrome.storage.local.get(['uuid', 'login'], function(result) {
+	browserAPI.storage.local.get(['uuid', 'login'], function(result) {
 		if (result.uuid && result.login){
 			fetchData(result);
 		}

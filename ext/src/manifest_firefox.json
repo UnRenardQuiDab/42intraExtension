@@ -1,0 +1,34 @@
+{
+	"manifest_version": 2,
+	"name": "42 IntraTools",
+	"version": "1.0",
+	"description": "42 IntraTools is a Firefox extension that provides additional features to the 42 intra website.",
+	"icons": {
+		"128": "/icons/logo.png"
+	},
+	"browser_action": {
+		"default_icon": "/icons/logo.png",
+		"default_title": "42 IntraTools",
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"activeTab", 
+		"scripting",
+		"identity",
+		"storage",
+		"tabs",
+		"webNavigation",
+		"http://localhost/*",
+		"https://translate.intra.42.fr/*"
+	],
+	"background": {
+		"scripts": ["background.bundle.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://profile.intra.42.fr/*"],
+			"js": ["contentScript.bundle.js"]
+		}
+	]
+  }
+  

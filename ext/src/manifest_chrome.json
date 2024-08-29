@@ -10,9 +10,6 @@
 	  }
 	},
 	"permissions": [
-		"activeTab", 
-		"scripting",
-		"identity",
 		"storage",
 		"tabs",
 		"webNavigation"
