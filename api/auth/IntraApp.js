@@ -35,7 +35,7 @@ class IntraApp {
 			this.token = token.access_token;
 			console.log('Token:', this.token);
 			this.expiration = Date.now() + token.expires_in * 1000;
-			return token;
+			return this.token;
 
 		} catch(err) {
 			console.error('Error fetching token:', err);
