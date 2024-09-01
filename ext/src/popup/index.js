@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Typography} from 'antd';
+import {Button, Image, Typography} from 'antd';
 import config from '../config';
 const { Text } = Typography;
+import { LogoutOutlined } from '@ant-design/icons';
 
 const App = () => {
 
@@ -40,12 +41,21 @@ const App = () => {
 	  {!user && <Button
 		onClick={onClick}
 	  >
-		Login with intra
+		Login with
+		<Image
+			height='100%'
+			src='/icons/42logo.png'
+			preview={false}
+		/> intra
 	  </Button>}
 
 	  {user &&
 		<>
-			<Text>
+			<Text
+				style={{
+					margin: '16px'
+				}}
+			>
 				Connected as {user.login}
 			</Text>
 			<Button
@@ -54,6 +64,7 @@ const App = () => {
 					setUser(null);
 				}}
 				danger
+				icon={<LogoutOutlined />}
 			>
 				Logout
 			</Button>

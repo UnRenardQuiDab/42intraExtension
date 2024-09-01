@@ -3,10 +3,17 @@
 	"name": "42 IntraTools",
 	"version": "1.0",
 	"description": "42 IntraTools is a Chrome extension that provides additional features to the 42 intra website.",
+	"icons": {
+		"128": "/icons/logo128.png",
+		"256": "/icons/logo256.png",
+		"512": "/icons/logo512.png"
+	},
 	"action": {
 	  "default_popup": "popup.html",
 	  "default_icon": {
-		"128": "/icons/logo.png"
+		"128": "/icons/logo128.png",
+		"256": "/icons/logo256.png",
+		"512": "/icons/logo512.png"
 	  }
 	},
 	"permissions": [
