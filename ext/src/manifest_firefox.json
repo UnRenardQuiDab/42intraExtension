@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "42 IntraTools",
-	"version": "1.2",
+	"version": "1.3",
 	"description": "42 IntraTools is a Firefox extension that provides additional features to the 42 intra website.",
 	"icons": {
 		"128": "/icons/logo128.png",
