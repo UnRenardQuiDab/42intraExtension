@@ -14,13 +14,10 @@
 		"default_popup": "popup.html"
 	},
 	"permissions": [
-		"activeTab", 
-		"scripting",
-		"identity",
 		"storage",
 		"tabs",
 		"webNavigation",
-		"http://localhost/*",
+		"http://42intratools.bastienw.fr/*",
 		"https://translate.intra.42.fr/*"
 	],
 	"background": {
