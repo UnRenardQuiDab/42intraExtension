@@ -1,6 +1,6 @@
 import { Button, Col, Flex, Row, Select, Spin } from 'antd';
 import React from 'react';
-import moment from 'moment';
+import moment, { max } from 'moment';
 import { Calendar as AntCalendar } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { useUser } from '../context/useUser';
@@ -11,7 +11,7 @@ function convertDurationToHoursMinutes(duration) {
 	if (!duration)
 		return '0h';
     const [heures, minutes] = duration.split(':');
-    return `${heures}h${minutes}`;
+    return `${heures}h${minutes.padStart(2, '0')}`;
 }
 
 function convertDurationToColor(duration) {
@@ -149,7 +149,7 @@ const Calendar = () => {
 				/>
 				</Col>
 				<Col>
-				{selectMonth} {selectYear}
+					{selectMonth} {selectYear}
 				</Col>
 				<Col>
 				<Button
@@ -162,7 +162,17 @@ const Calendar = () => {
 		);
   };
 
-  const [currentDate, setCurrentDate] = React.useState(dayjs());
+  React.useEffect(() => {
+	const body = document.querySelectorAll('.ant-picker-body')[0]
+	if (body)
+		body.style.padding = '8px 18px';
+
+	const cell = document.querySelectorAll('.ant-picker-cell');
+	cell.forEach((element) => {
+		element.style.padding = '0'
+	});
+
+  });
 	
 	if (loading)
 		return (
@@ -186,14 +196,14 @@ const Calendar = () => {
 				fullscreen={false}
 				style={{
 					width: '100%',
-					maxWidth: '80vh',
+					maxWidth: '400px',
 					height: 'auto',
+					maxHeight: '400px',
 					aspectRatio: '1 / 1',
 				}}
 				validRange={validRange}
 				dateFullCellRender={cellRender}
 				headerRender={headerRender}
-				onChange={(date) => setCurrentDate(date)}
 			/>
 			<Row justify="space-between" align="middle" style={{
 				padding: 16,

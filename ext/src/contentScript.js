@@ -23,16 +23,18 @@ const App = () => {
 		<div
 			style={{
 				width: '100%',
-				height: '100vh',
+				height: '415px',
 				backgroundColor: 'white',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				marginTop: '5vh',
+				marginTop: '40px',
 				padding: '25px',
 				overflow: 'hidden',
 				flexDirection: 'column',
 				position: 'relative',
+				border: '1px solid #f7f7f7',
+				borderRadius: '3px',
 			}}
 		>
 			<Calendar />
@@ -45,16 +47,24 @@ const App = () => {
 const locationElement = document.getElementById('locations');
 const boxedElement = locationElement ? locationElement.closest('.boxed') : null;
 
+
+const container = document.querySelectorAll('.container-inner-item');
+if (container)
+	container.forEach((element) => {
+		element.style.marginLeft = '0'
+	});
+
+
 let root = document.createElement('div');
 
 if (boxedElement)
-{
-	browserAPI.storage.local.get(['uuid', 'login'], function(result) {
+	{
+		browserAPI.storage.local.get(['uuid', 'login'], function(result) {
 		if (result.uuid && result.login)
-		{
-			boxedElement.parentNode.replaceChild(root, boxedElement);
-			ReactDOM.render(<App />, root);
-		}
-	});
-}
-
+			{
+				boxedElement.parentNode.replaceChild(root, boxedElement);
+				ReactDOM.render(<App />, root);
+			}
+		});
+	}
+	

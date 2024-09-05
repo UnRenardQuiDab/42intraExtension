@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "42 IntraTools",
-	"version": "1.0",
+	"version": "1.2",
 	"description": "42 IntraTools is a Chrome extension that provides additional features to the 42 intra website.",
 	"icons": {
 		"128": "/icons/logo128.png",
