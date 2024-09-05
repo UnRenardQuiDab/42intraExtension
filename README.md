@@ -16,6 +16,11 @@ This repository is divided into two main parts:
 - **ext/**: The Web extension that enhances your 42 intranet experience.
 - **api/**: The backend API built with Express, providing data and services to the extension.
 
+## 📥 Download
+
+- [Chrome Web Store](https://chromewebstore.google.com/detail/42-intratools/hmffgknhokibmhbfhmfgfknpcjgeclgo)
+- [Firefox](https://github.com/UnRenardQuiDab/42intraExtension/releases)
+
 ## 🛠️ Getting Started
 
 ### Prerequisites
