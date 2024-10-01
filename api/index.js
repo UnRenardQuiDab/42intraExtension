@@ -41,20 +41,14 @@ app.get('/logtime', isLoggedIn, async (req, res) => {
 });
 
 app.get('/me', isLoggedIn, async (req, res) => {
-  const bwisniew  = await User.findOne({ login: 'bwisniew' });
-  if (!bwisniew) {
-    res.status(500).send('User not found');
-    return;
-  }
-
   const response = await fetch(`https://api.intra.42.fr/v2/me`, {
     headers: {
-      'Authorization': `Bearer ${await bwisniew.getToken()}`
+      'Authorization': `Bearer ${await req.user.getToken()}`
     }
   });
 
   if (response.status !== 200) {
-    res.status(500).send('User not found');
+    res.status(404).send('User not found');
     return;
   }
 

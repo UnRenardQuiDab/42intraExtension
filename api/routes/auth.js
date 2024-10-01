@@ -3,6 +3,7 @@ const router = new express.Router();
 const generateAccessToken = require('../auth/generateAccessToken');
 const User = require("../model/user");
 const Token = require("../model/token");
+const config = require("../config");
 
 router.get('/42', (req, res) => {
 	const url = `https://api.intra.42.fr/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.CALLBACK_URL}&response_type=code`;
@@ -49,8 +50,8 @@ router.get('/42/callback',
 		
 		try {
 			const token = await Token.create({ user: user._id });
-			res.cookie('token', token.accessToken, { maxAge: 3600 * 24 * 30, httpOnly: true });
-			res.redirect(`/auth/redirect?token=${token.accessToken}&login=${login}&maxAge=${3600 * 24 * 30}`);
+			res.cookie('token', token.accessToken, { maxAge: config.tokenDuration, httpOnly: true });
+			res.redirect(`/auth/redirect?token=${token.accessToken}&login=${login}&maxAge=${token.getExpirationDate() * 1000}`);
 		}
 		catch (e) {
 			console.error(e);

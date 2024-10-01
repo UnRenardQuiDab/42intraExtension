@@ -48,20 +48,23 @@ const locationElement = document.getElementById('locations');
 const boxedElement = locationElement ? locationElement.closest('.boxed') : null;
 
 
-const container = document.querySelectorAll('.container-inner-item');
-if (container)
-	container.forEach((element) => {
-		element.style.marginLeft = '0'
-	});
+
 
 
 let root = document.createElement('div');
 
 if (boxedElement)
 	{
-		browserAPI.storage.local.get(['token', 'login'], function(result) {
-		if (result.token && result.login)
+		browserAPI.storage.local.get(['token', 'login', 'maxAge'], function(result) {
+		if (result.token && result.login && new Date(parseInt(result.maxAge)) > Date.now())
 			{
+
+				const container = document.querySelectorAll('.container-inner-item');
+				if (container)
+					container.forEach((element) => {
+						element.style.marginLeft = '0'
+					});
+
 				boxedElement.parentNode.replaceChild(root, boxedElement);
 				ReactDOM.render(<App />, root);
 			}

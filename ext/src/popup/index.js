@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Button, Image, Typography} from 'antd';
 import config from '../config';
 const { Text } = Typography;
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const App = () => {
 
@@ -18,9 +18,10 @@ const App = () => {
 	}
 
 	React.useEffect(() => {
-		browserAPI.storage.local.get(['token', 'login'], function(result) {
-			if (result.token && result.login)
+		browserAPI.storage.local.get(['token', 'login', 'maxAge'], function(result) {
+			if (result.login)
 				setUser(result);
+			console.log(result, new Date(parseInt(result.maxAge)), Date.now());
 		});
 		return () => {
 			setUser(null);
@@ -49,28 +50,47 @@ const App = () => {
 		/> intra
 	  </Button>}
 
-	  {user &&
+		{user && new Date(parseInt(user.maxAge)) > Date.now() &&
+			<>
+				<Text
+					style={{
+						margin: '16px'
+					}}
+				>
+					Connected as {user.login}
+				</Text>
+				<Button
+					onClick={() => {
+						chrome.storage.local.clear();
+						setUser(null);
+					}}
+					danger
+					icon={<LogoutOutlined />}
+				>
+					Logout
+				</Button>
+			</>
+		}
+		{user && new Date(parseInt(user.maxAge)) <= Date.now() &&
 		<>
 			<Text
 				style={{
 					margin: '16px'
 				}}
 			>
-				Connected as {user.login}
+				Your session has expired
 			</Text>
 			<Button
-				onClick={() => {
-					chrome.storage.local.clear();
-					setUser(null);
-				}}
-				danger
-				icon={<LogoutOutlined />}
+				onClick={onClick}
+				color="primary"
+				variant="filled"
+				icon={<ReloadOutlined />}
 			>
-				Logout
+				Refresh Token
 			</Button>
 		</>
 
-	  }
+		}
 	</div>
   );
 };
