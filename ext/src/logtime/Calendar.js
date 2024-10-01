@@ -109,7 +109,9 @@ const Calendar = () => {
 		const selectMonth = (
 		<Select
 			style={{
-				Flex: 1,
+
+				textOverflow: 'ellipsis',
+				overflow: 'hidden',
 			}}
 			value={current.month()}
 			onChange={(newMonth) => {
@@ -125,7 +127,9 @@ const Calendar = () => {
 		const selectYear = (
 		<Select
 			style={{
-				Flex: 1,
+
+				textOverflow: 'ellipsis',
+				overflow: 'hidden',
 			}}
 			value={current.year()}
 			onChange={(newYear) => {
@@ -141,35 +145,35 @@ const Calendar = () => {
 		);
 
 		return (
-			<Row justify="space-between" align="middle" style={{ padding: 8, color: 'var(--text-color)'}}>
-				<Col>
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					padding: 8,
+					flexDirection: 'row',
+					flexWrap: 'no-wrap',
+					gap: 2,
+				}}
+			>
 				<Button
 					style={{
-						color: 'var(--text-color)',
-						borderColor: 'var(--general-border-color)',
-						backgroundColor: 'var(--container-background-color)',
+						aspectRatio: '1/1',
 					}}
 					icon={<LeftOutlined />}
 					onClick={() => onChange(current.subtract(1, 'month'))}
 					disabled={isPrevMonthDisabled}
 				/>
-				</Col>
-				<Col>
-					{selectMonth} {selectYear}
-				</Col>
-				<Col>
+				{selectMonth} {selectYear}
 				<Button
 					style={{
-						color: 'var(--text-color)',
-						borderColor: 'var(--general-border-color)',
-						backgroundColor: 'var(--container-background-color)',
+						aspectRatio: '1/1',
 					}}
 					icon={<RightOutlined />}
 					onClick={() => onChange(current.add(1, 'month'))}
 					disabled={isNextMonthDisabled}
 				/>
-				</Col>
-			</Row>
+			</div>
 		);
   };
 

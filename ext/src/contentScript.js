@@ -17,7 +17,7 @@ const App = () => {
 				Calendar: {
 					itemActiveBg: 'transparent',
 					fullPanelBg: 'transparent',
-					fullBg: 'var(--container-background-color)',
+					fullBg: 'var(--container-background-color, white)',
 				},
 			},
 			
@@ -28,7 +28,7 @@ const App = () => {
 			style={{
 				width: '100%',
 				height: '415px',
-				backgroundColor: 'var(--container-background-color)',
+				backgroundColor: 'var(--container-background-color, white)',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
@@ -37,7 +37,7 @@ const App = () => {
 				overflow: 'hidden',
 				flexDirection: 'column',
 				position: 'relative',
-				border: '1px solid var(--general-border-color)',
+				border: '1px solid var(--general-border-color, #f7f7f7)',
 				borderRadius: '3px',
 				color: 'var(--text-color)',
 			}}
