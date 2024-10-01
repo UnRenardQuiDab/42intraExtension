@@ -4,15 +4,12 @@ const axios = require('axios');
 const IntraApp = require('../auth/IntraApp');
 
 
-
-
 const userSchema = new mongoose.Schema({
     intraId: { type: String, required: true, unique: true },
     login: { type: String, required: true },
     accessToken: { type: String, required: false },
     refreshToken: { type: String, required: false },
     expiresIn: { type: Date, required: false },
-    uuid: { type: String, required: false },
     createdAt: { type: Date, default: Date.now },
     intraUserCreatedAt: { type: Date, required: true },
     logtime: {type: {

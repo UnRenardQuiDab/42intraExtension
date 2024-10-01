@@ -6,8 +6,8 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   React.useEffect(() => {
-	chrome.storage.local.get(['uuid', 'login'], function(result) {
-		if (result.uuid && result.login)
+	chrome.storage.local.get(['token', 'login'], function(result) {
+		if (result.token && result.login)
 			setUser(result);
 	});
   }, []);

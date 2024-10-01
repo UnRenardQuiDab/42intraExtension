@@ -4,12 +4,12 @@ const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
 chrome.webNavigation.onCompleted.addListener(function(details) {
 	const url = new URL(details.url);
-	const uuid = url.searchParams.get('uuid');
+	const token = url.searchParams.get('token');
 	const login = url.searchParams.get('login');
 
-	if (uuid) {
-		browserAPI.storage.local.set({ uuid, login }, function() {
-		console.log('uuid saved:', uuid);
+	if (token) {
+		browserAPI.storage.local.set({ token, login }, function() {
+		console.log('token saved:', token);
 		chrome.tabs.remove(details.tabId);
 	  });
 	}

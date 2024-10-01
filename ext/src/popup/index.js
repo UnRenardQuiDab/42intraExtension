@@ -18,8 +18,8 @@ const App = () => {
 	}
 
 	React.useEffect(() => {
-		browserAPI.storage.local.get(['uuid', 'login'], function(result) {
-			if (result.uuid && result.login)
+		browserAPI.storage.local.get(['token', 'login'], function(result) {
+			if (result.token && result.login)
 				setUser(result);
 		});
 		return () => {

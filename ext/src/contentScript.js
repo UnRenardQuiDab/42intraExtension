@@ -59,8 +59,8 @@ let root = document.createElement('div');
 
 if (boxedElement)
 	{
-		browserAPI.storage.local.get(['uuid', 'login'], function(result) {
-		if (result.uuid && result.login)
+		browserAPI.storage.local.get(['token', 'login'], function(result) {
+		if (result.token && result.login)
 			{
 				boxedElement.parentNode.replaceChild(root, boxedElement);
 				ReactDOM.render(<App />, root);

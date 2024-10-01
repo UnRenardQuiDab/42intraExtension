@@ -14,7 +14,7 @@ export default function useFetch(url, options = {}) {
 			{
 				...options,
 				headers: {
-					'X-42IntraTools-Key': user.uuid,
+					'X-42IntraTools-Key': user.token,
 					...options.headers
 				},
 				credentials: 'include',
@@ -29,8 +29,8 @@ export default function useFetch(url, options = {}) {
 		setLoading(false);
 	  }
 	};
-	browserAPI.storage.local.get(['uuid', 'login'], function(result) {
-		if (result.uuid && result.login){
+	browserAPI.storage.local.get(['token', 'login'], function(result) {
+		if (result.token && result.login){
 			fetchData(result);
 		}
 	});

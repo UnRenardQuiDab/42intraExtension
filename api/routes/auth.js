@@ -2,7 +2,7 @@ const express = require("express")
 const router = new express.Router();
 const generateAccessToken = require('../auth/generateAccessToken');
 const User = require("../model/user");
-const { v4: uuidv4 } = require('uuid');
+const Token = require("../model/token");
 
 router.get('/42', (req, res) => {
 	const url = `https://api.intra.42.fr/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.CALLBACK_URL}&response_type=code`;
@@ -33,24 +33,29 @@ router.get('/42/callback',
 		}
 	
 		const { id, login, created_at } = await me.json();
-		const uuid = uuidv4();
-	
-		await User.findOneAndUpdate(
-		  { intraId: id },
-		  {
-			intraId: id,
-			login: login,
-			accessToken: access_token,
-			refreshToken: refresh_token,
-			expiresIn: new Date(Date.now() + expires_in * 1000),
-			uuid: uuid,
-			intraUserCreatedAt: created_at,
-			logtime: { durations: [], lastFetchedDate: created_at }
-		  },
-		  { new: true, upsert: true, useFindAndModify: false });
 		
-		res.cookie('uuid', uuid);
-		res.redirect(`/auth/redirect?uuid=${uuid}&login=${login}`);
+		const user = await User.findOneAndUpdate(
+			{ intraId: id },
+			{
+				intraId: id,
+				login: login,
+				accessToken: access_token,
+				refreshToken: refresh_token,
+				expiresIn: new Date(Date.now() + expires_in * 1000),
+				intraUserCreatedAt: created_at,
+				logtime: { durations: [], lastFetchedDate: created_at }
+			},
+			{ new: true, upsert: true, useFindAndModify: false });
+		
+		try {
+			const token = await Token.create({ user: user._id });
+			res.cookie('token', token.accessToken, { maxAge: 3600 * 24 * 30, httpOnly: true });
+			res.redirect(`/auth/redirect?token=${token.accessToken}&login=${login}&maxAge=${3600 * 24 * 30}`);
+		}
+		catch (e) {
+			console.error(e);
+			res.status(500).send('Error while creating token');
+		}
 	  });
   });
   

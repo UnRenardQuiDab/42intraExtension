@@ -1,11 +1,14 @@
-const User = require("../model/user");
+const Token = require("../model/token");
 
 async function userParser(req, res, next) {
-  let uuid = req.cookies.uuid;
-  if (!uuid) {
-	uuid = req.headers['x-42intratools-key'];
+  let token = req.cookies.token;
+  if (!token) {
+    token = req.headers['x-42intratools-key'];
   }
-  req.user = await User.findOne({ uuid: uuid });
+  if (!token)
+    return next();
+  const user_token = await Token.findOne({ accessToken: token }).populate('user');
+  req.user = user_token?.user;
   next();
 }
 
