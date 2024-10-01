@@ -1,9 +1,10 @@
-import { ConfigProvider, Tooltip } from 'antd';
+import { ConfigProvider, Select, Tooltip } from 'antd';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { UserProvider } from './context/useUser';
 import Calendar from './logtime/Calendar';
 import { WarningOutlined } from '@ant-design/icons';
+import './logtime/Calendar.css';
 
 const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
@@ -16,8 +17,10 @@ const App = () => {
 				Calendar: {
 					itemActiveBg: 'transparent',
 					fullPanelBg: 'transparent',
+					fullBg: 'var(--container-background-color)',
 				},
 			},
+			
 		}}
 	>
 	<UserProvider>
@@ -25,7 +28,7 @@ const App = () => {
 			style={{
 				width: '100%',
 				height: '415px',
-				backgroundColor: 'white',
+				backgroundColor: 'var(--container-background-color)',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
@@ -34,8 +37,9 @@ const App = () => {
 				overflow: 'hidden',
 				flexDirection: 'column',
 				position: 'relative',
-				border: '1px solid #f7f7f7',
+				border: '1px solid var(--general-border-color)',
 				borderRadius: '3px',
+				color: 'var(--text-color)',
 			}}
 		>
 			<Calendar />
@@ -51,7 +55,6 @@ const WarningTooltip = () => {
 	return(
 		<Tooltip title="Your 42IntraTools token has expired">
 			<WarningOutlined style={{
-				fontSize: '1.5em',
 				marginLeft: '8px',
 			}} />
 		</Tooltip>
@@ -60,10 +63,6 @@ const WarningTooltip = () => {
 
 const locationElement = document.getElementById('locations');
 const boxedElement = locationElement ? locationElement.closest('.boxed') : null;
-
-
-
-
 
 let root = document.createElement('div');
 

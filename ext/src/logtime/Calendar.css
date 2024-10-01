@@ -1,0 +1,11 @@
+.ant-picker-content th, .ant-select-selector, .ant-select-selection-item, .ant-select, .ant-select-open, .ant-select-dropdown, .ant-select-item-option-content, .ant-select-item-option-active, .ant-select-item-option-selected, .ant-select-selection-item{
+	color: var(--text-color) !important;
+	border-color: var(--general-border-color) !important;
+	background-color: var(--container-background-color) !important;
+}
+
+
+.ant-select-item-option-disabled{
+	color: var(--text-color) !important;
+	opacity: 0.5 !important;
+}

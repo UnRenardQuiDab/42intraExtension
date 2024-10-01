@@ -55,6 +55,7 @@ const Calendar = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				flexDirection: 'column',
+				color: 'var(--text-color)',
 			}}
 			>
 				<p
@@ -128,10 +129,10 @@ const Calendar = () => {
 			}}
 			value={current.year()}
 			onChange={(newYear) => {
-			var newValue = value.clone().year(newYear);
-			newValue = newValue < validRange[0] ? validRange[0] : newValue;
-			newValue = newValue > validRange[1] ? validRange[1] : newValue;
-			onChange(newValue);
+				var newValue = value.clone().year(newYear);
+				newValue = newValue < validRange[0] ? validRange[0] : newValue;
+				newValue = newValue > validRange[1] ? validRange[1] : newValue;
+				onChange(newValue);
 			}}
 			dropdownMatchSelectWidth={false}
 		>
@@ -140,9 +141,14 @@ const Calendar = () => {
 		);
 
 		return (
-			<Row justify="space-between" align="middle" style={{ padding: 8 }}>
+			<Row justify="space-between" align="middle" style={{ padding: 8, color: 'var(--text-color)'}}>
 				<Col>
 				<Button
+					style={{
+						color: 'var(--text-color)',
+						borderColor: 'var(--general-border-color)',
+						backgroundColor: 'var(--container-background-color)',
+					}}
 					icon={<LeftOutlined />}
 					onClick={() => onChange(current.subtract(1, 'month'))}
 					disabled={isPrevMonthDisabled}
@@ -153,6 +159,11 @@ const Calendar = () => {
 				</Col>
 				<Col>
 				<Button
+					style={{
+						color: 'var(--text-color)',
+						borderColor: 'var(--general-border-color)',
+						backgroundColor: 'var(--container-background-color)',
+					}}
 					icon={<RightOutlined />}
 					onClick={() => onChange(current.add(1, 'month'))}
 					disabled={isNextMonthDisabled}
@@ -183,6 +194,7 @@ const Calendar = () => {
 					justifyContent: 'center',
 					alignItems: 'center',
 					flexDirection: 'column',
+					color: 'var(--text-color)',
 				}}
 			>
 				<p>Loading...</p>
@@ -200,6 +212,7 @@ const Calendar = () => {
 					height: 'auto',
 					maxHeight: '400px',
 					aspectRatio: '1 / 1',
+					color: 'var(--text-color)',
 				}}
 				validRange={validRange}
 				dateFullCellRender={cellRender}
@@ -210,7 +223,7 @@ const Calendar = () => {
 				position: 'absolute',
 				bottom: 0,
 				width: '100%',
-				color: 'lightgray',
+				color: 'var(--text-color)',
 			}}>
 		 		Total : {convertDurationToHoursMinutes(durations.total)}
 		 	</Row>
