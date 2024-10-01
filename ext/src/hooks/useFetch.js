@@ -19,10 +19,17 @@ export default function useFetch(url, options = {}) {
 				},
 				credentials: 'include',
 			});
+		if (response.status === 401) {
+			browserAPI.storage.local.remove(['token'], function() {
+				browserAPI.storage.local.set({maxAge: Date.now()}, function() {
+					document.location.reload();
+				});
+			});
+			return;
+		}
 		const data = await response.json(); 
 		setData(data);
 	  } catch (error) {
-		console.error(error);
 		setError(error);
 	  } finally {
 		setLoading(false);

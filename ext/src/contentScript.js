@@ -79,8 +79,7 @@ if (boxedElement)
 			boxedElement.parentNode.replaceChild(root, boxedElement);
 			ReactDOM.render(<App />, root);
 		}
-		else if (result.token && result.login && new Date(parseInt(result.maxAge)) <= Date.now()){
-			console.warn('Token expired');
+		else if (result.login && new Date(parseInt(result.maxAge)) <= Date.now()){
 			const title = document.querySelectorAll('.profile-title')[0];
 			title.style.justifyContent = 'flex-start';
 			title.appendChild(root)

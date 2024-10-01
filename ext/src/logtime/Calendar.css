@@ -3,6 +3,10 @@
 	background-color: var(--container-background-color, white) !important;
 }
 
+.ant-select-arrow{
+	color: var(--text-color, lightgray) !important;
+}
+
 
 .ant-select-item-option-disabled{
 	color: var(--text-color, black) !important;

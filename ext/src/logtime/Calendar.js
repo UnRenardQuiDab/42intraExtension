@@ -227,7 +227,7 @@ const Calendar = () => {
 				position: 'absolute',
 				bottom: 0,
 				width: '100%',
-				color: 'var(--text-color)',
+				color: 'var(--text-color, lightgray)',
 			}}>
 		 		Total : {convertDurationToHoursMinutes(durations.total)}
 		 	</Row>
