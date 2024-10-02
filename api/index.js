@@ -10,9 +10,6 @@ const app = express();
 
 module.exports = app;
 
-console.log(process.env.CHROME_EXTENSION_ID);
-console.log(process.env.FIREFOX_EXTENSION_ID);
-
 const corsOptions =  {
   origin: ["https://signin.intra.42.fr", "https://profile.intra.42.fr", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`, `moz-extension://${process.env.FIREFOX_EXTENSION_ID}`],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',

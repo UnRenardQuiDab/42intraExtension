@@ -33,7 +33,6 @@ class IntraApp {
 			
 			const token = await response.json();
 			this.token = token.access_token;
-			console.log('Token:', this.token);
 			this.expiration = Date.now() + token.expires_in * 1000;
 			return this.token;
 

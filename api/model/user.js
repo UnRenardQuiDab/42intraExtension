@@ -44,7 +44,6 @@ userSchema.methods.getLogtime = async function() {
     const maxUpdatedDate = new Date(Date.now());
     maxUpdatedDate.setMonth(maxUpdatedDate.getMonth() - 4);
     if (this.logtime.length !== 0 && this.logtime.lastFetchedDate > maxUpdatedDate) {
-        console.log('returning from cache');
         return this.logtime.durations;
     }
 
@@ -59,7 +58,6 @@ userSchema.methods.getLogtime = async function() {
                 end_at: new Date(Date.now()).toISOString()
             }
         });
-        console.log('returning from api');
 
         for (const date in response.data) {
             const logtime = this.logtime.durations.find((element) => new Date(element.date) === new Date(date));

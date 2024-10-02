@@ -43,7 +43,6 @@ const App = () => {
 		browserAPI.storage.local.get(['token', 'login', 'maxAge'], function(result) {
 			if (result.login)
 				setUser(result);
-			console.log(result, new Date(parseInt(result.maxAge)), Date.now());
 		});
 		return () => {
 			setUser(null);
