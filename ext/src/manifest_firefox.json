@@ -31,7 +31,7 @@
 	],
 	"browser_specific_settings": {
 		"gecko": {
-			"update_url": "https://bastienw.fr/firefox/update"
+			"update_url": "https://42intratools.bastienw.fr/firefox/update"
 		}
 	}
   }
