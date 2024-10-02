@@ -53,7 +53,7 @@ const App = () => {
 const WarningTooltip = () => {
 
 	return(
-		<Tooltip title="Your 42IntraTools token has expired">
+		<Tooltip title="Your 42IntraTools session has expired">
 			<WarningOutlined style={{
 				marginLeft: '8px',
 			}} />

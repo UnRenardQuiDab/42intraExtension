@@ -9,6 +9,7 @@ async function userParser(req, res, next) {
     return next();
   const user_token = await Token.findOne({ accessToken: token }).populate('user');
   req.user = user_token?.user;
+  req.userToken = user_token;
   next();
 }
 

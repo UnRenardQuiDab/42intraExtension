@@ -4,6 +4,7 @@ const generateAccessToken = require('../auth/generateAccessToken');
 const User = require("../model/user");
 const Token = require("../model/token");
 const config = require("../config");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.get('/42', (req, res) => {
 	const url = `https://api.intra.42.fr/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.CALLBACK_URL}&response_type=code`;
@@ -58,9 +59,15 @@ router.get('/42/callback',
 			res.status(500).send('Error while creating token');
 		}
 	  });
-  });
-  
-  
+});
+
+router.get('/logout', isLoggedIn , async (req, res) => {
+	await req.userToken.deleteOne();
+	res.clearCookie('token');
+	res.send('You are now disconnected');
+});
+
+
 router.get('/redirect', (req, res) => {
 	res.send(`You are now connected you can close this tab`);
 });

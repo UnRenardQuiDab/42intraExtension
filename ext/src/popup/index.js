@@ -8,6 +8,7 @@ import { LogoutOutlined, ReloadOutlined } from '@ant-design/icons';
 const App = () => {
 
 	const [user, setUser] = React.useState(null);
+	const [logoutLoading, setLogoutLoading] = React.useState(false);
 	const browserAPI = process.env.BROWSER === 'firefox' ? browser : chrome;
 
 	const onClick = async () => {
@@ -16,6 +17,27 @@ const App = () => {
 			active: true
 		});
 	}
+
+	
+	const onLogout = async () => {
+		setLogoutLoading(true);
+		const response = await fetch(`${config.api}/auth/logout`, {
+			headers: {
+				'X-42IntraTools-Key': user?.token,
+			},
+			credentials: 'include',
+		});
+		if (response.ok)
+		{
+			setUser(null);
+			browserAPI.storage.local.clear();
+		}
+		else
+			console.error('Error while logging out');
+		setLogoutLoading(false);
+	}
+
+
 
 	React.useEffect(() => {
 		browserAPI.storage.local.get(['token', 'login', 'maxAge'], function(result) {
@@ -60,12 +82,11 @@ const App = () => {
 					Connected as {user.login}
 				</Text>
 				<Button
-					onClick={() => {
-						chrome.storage.local.clear();
-						setUser(null);
-					}}
+					onClick={onLogout}
 					danger
 					icon={<LogoutOutlined />}
+					loading={logoutLoading}
+					disabled={logoutLoading}
 				>
 					Logout
 				</Button>
