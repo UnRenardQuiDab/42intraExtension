@@ -1,0 +1,16 @@
+{
+	"addons": {
+	  "{ec7b06f6-9fc3-4ddf-bb84-32126269d3c1}": {
+		"updates": [
+		  {
+			"version": "1.4.0",
+			"update_link": "https://github.com/UnRenardQuiDab/42intraExtension/releases/download/Firefox/42intratools-1.4.xpi"
+		  },
+		  {
+			"version": "1.4.1",
+			"update_link": "https://github.com/UnRenardQuiDab/42intraExtension/releases/download/Firefox/42intratools-1.4.1.xpi"
+		  }
+		]
+	  }
+	}
+}

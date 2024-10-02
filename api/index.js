@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const User = require('./model/user');
 const cors = require('cors');
 const isLoggedIn = require('./middleware/isLoggedIn');
 const cookieParser = require('cookie-parser');
@@ -26,6 +25,7 @@ app.use(cors(corsOptions));
 app.use(userParser);
 app.use('/auth', require('./routes/auth'));
 app.use('/user', isLoggedIn, require('./routes/user'));
+app.use('/firefox', require('./routes/firefox'));
 
 
 app.get('/logtime', isLoggedIn, async (req, res) => {
