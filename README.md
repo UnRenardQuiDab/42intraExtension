@@ -80,6 +80,8 @@ Ensure you have these installed before getting started:
 	CLIENT_ID=<your client id>
 	CLIENT_SECRET=<your client secret>
 	CALLBACK_URL=http://localhost:3000/auth/42/callback
+   CHROME_EXTENSION_ID=
+   FIREFOX_EXTENSION_ID=
    ```
 
 3. Install the necessary dependencies:
