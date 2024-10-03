@@ -6,7 +6,8 @@
   "scripts": {
     "build": "cross-env BROWSER=chrome webpack --mode production",
     "build:chrome": "cross-env BROWSER=chrome webpack --mode production",
-    "build:firefox": "cross-env BROWSER=firefox webpack --mode production"
+    "build:firefox": "cross-env BROWSER=firefox webpack --mode production",
+    "sources": "rm -rf node_modules dist && cd .. && zip -r ext/srcs.zip ext README.md"
   },
   "author": "",
   "license": "ISC",
