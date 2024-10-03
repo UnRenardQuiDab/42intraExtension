@@ -41,7 +41,7 @@ const App = () => {
 
 	React.useEffect(() => {
 		browserAPI.storage.local.get(['token', 'login', 'maxAge'], function(result) {
-			if (result.login)
+			if (result.login && result.token && result.maxAge)
 				setUser(result);
 		});
 		return () => {
